@@ -14,13 +14,13 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            user-select: none;
+            user-select: none; /* Блокировка выделения текста */
         }
         body, html {
-            -webkit-touch-callout: none;
+            -webkit-touch-callout: none; /* Отключение всплывающих меню на iOS */
             -webkit-user-select: none;
             -ms-user-select: none;
-            user-select: none;
+            user-select: none; /* Отключение выделения текста */
         }
         .background {
             position: fixed;
@@ -53,49 +53,35 @@
         }
         .language-switcher {
             display: flex;
-            position: relative;
+            gap: 10px;
             margin-left: auto;
+            position: relative;
         }
-        .language-switcher .current-language {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 2px solid #58a6ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .language-switcher img {
+            width: 32px;
+            height: 32px;
             cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            object-fit: cover;
         }
-        .language-switcher .current-language img {
-            width: 24px;
-            height: 24px;
-        }
-        .language-switcher .language-options {
+        .language-options {
             display: none;
+            flex-direction: column;
             position: absolute;
-            top: 50px;
+            top: 40px;
             right: 0;
-            background-color: rgba(22, 27, 34, 0.9);
-            border-radius: 10px;
+            background-color: rgba(33, 38, 45, 0.9);
+            border-radius: 8px;
+            padding: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
             z-index: 1000;
         }
-        .language-switcher .language-options img {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            margin: 5px;
-            cursor: pointer;
-            transition: transform 0.2s;
+        .language-options img {
+            margin-bottom: 8px;
         }
-        .language-switcher .language-options img:hover {
-            transform: scale(1.1);
-        }
-        .language-switcher.open .language-options {
+        .language-switcher:hover .language-options {
             display: flex;
-            flex-direction: column;
-            align-items: center;
         }
         .sidebar {
             background-color: rgba(22, 27, 34, 0.9);
@@ -207,10 +193,8 @@
     <header>
         <span class="menu-icon" onclick="toggleMenu()">☰</span>
         <img src="images/logo.png" alt="Abiotic Factor Logo">
-        <div class="language-switcher" id="languageSwitcher">
-            <div class="current-language" onclick="toggleLanguageMenu()">
-                <img src="images/flag-russia.png" alt="Русский">
-            </div>
+        <div class="language-switcher">
+            <img src="images/flag-russia.png" alt="Русский" class="current-language" onclick="toggleLanguageMenu()">
             <div class="language-options">
                 <img src="images/flag-usa.png" alt="English" onclick="switchLanguage('en')">
                 <img src="images/flag-ukraine.png" alt="Українська" onclick="switchLanguage('uk')">
@@ -260,11 +244,6 @@
             sidebar.classList.toggle('open');
         }
 
-        function toggleLanguageMenu() {
-            const languageSwitcher = document.getElementById('languageSwitcher');
-            languageSwitcher.classList.toggle('open');
-        }
-
         function switchLanguage(lang) {
             const elementsToTranslate = {
                 'ru': {
@@ -295,29 +274,37 @@
                 document.getElementById(id).innerText = translations[id];
             }
 
-            const currentLanguage = document.querySelector('.current-language img');
-            currentLanguage.src = `images/flag-${lang}.png`;
+            const currentLanguageIcon = document.querySelector('.current-language');
+            currentLanguageIcon.src = `images/flag-${lang === 'ru' ? 'russia' : lang === 'en' ? 'usa' : 'ukraine'}.png`;
 
-            const languageOptions = document.querySelectorAll('.language-options img');
-            languageOptions.forEach(option => {
-                if (option.alt.toLowerCase() === lang) {
-                    option.style.display = 'none';
-                } else {
-                    option.style.display = 'block';
-                }
-            });
+            const languageOptions = document.querySelector('.language-options');
+            const availableLanguages = ['ru', 'en', 'uk'];
+            languageOptions.innerHTML = '';
+            availableLanguages
+                .filter(language => language !== lang)
+                .forEach(language => {
+                    const img = document.createElement('img');
+                    img.src = `images/flag-${language === 'ru' ? 'russia' : language === 'en' ? 'usa' : 'ukraine'}.png`;
+                    img.alt = language;
+                    img.onclick = () => switchLanguage(language);
+                    languageOptions.appendChild(img);
+                });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const userLang = navigator.language || navigator.userLanguage;
-            const langMap = {
-                'ru': 'ru',
-                'uk': 'uk',
-                'en': 'en'
-            };
-            const defaultLang = langMap[userLang.slice(0, 2)] || 'en';
-            switchLanguage(defaultLang);
-        });
+        function toggleLanguageMenu() {
+            const languageOptions = document.querySelector('.language-options');
+            languageOptions.style.display = languageOptions.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // Set language based on system settings
+        const userLang = navigator.language || navigator.userLanguage;
+        if (userLang.startsWith('ru')) {
+            switchLanguage('ru');
+        } else if (userLang.startsWith('uk')) {
+            switchLanguage('uk');
+        } else {
+            switchLanguage('en');
+        }
     </script>
 </body>
 </html>
