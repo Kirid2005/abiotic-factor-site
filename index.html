@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,13 +14,13 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            user-select: none; /* Блокировка выделения текста */
+            user-select: none;
         }
         body, html {
-            -webkit-touch-callout: none; /* Отключение всплывающих меню на iOS */
+            -webkit-touch-callout: none;
             -webkit-user-select: none;
             -ms-user-select: none;
-            user-select: none; /* Отключение выделения текста */
+            user-select: none;
         }
         .background {
             position: fixed;
@@ -52,17 +52,31 @@
             margin-left: 15px;
         }
         .language-switcher {
-            display: flex;
-            gap: 10px;
             margin-left: auto;
+            position: relative;
         }
-        .language-switcher img {
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
+        .language-current {
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            border: 2px solid #58a6ff;
-            padding: 2px;
+            cursor: pointer;
+        }
+        .language-dropdown {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background-color: rgba(22, 27, 34, 0.9);
+            padding: 10px;
+            border-radius: 8px;
+            display: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        .language-dropdown img {
+            width: 32px;
+            height: 32px;
+            margin: 5px;
+            border-radius: 50%;
+            cursor: pointer;
         }
         .sidebar {
             background-color: rgba(22, 27, 34, 0.9);
@@ -174,10 +188,13 @@
     <header>
         <span class="menu-icon" onclick="toggleMenu()">☰</span>
         <img src="images/logo.png" alt="Abiotic Factor Logo">
-        <div class="language-switcher" id="language-switcher">
-            <a onclick="switchLanguage('ru')"><img src="images/flag-russia.png" alt="Русский"></a>
-            <a onclick="switchLanguage('en')"><img src="images/flag-usa.png" alt="English"></a>
-            <a onclick="switchLanguage('uk')"><img src="images/flag-ukraine.png" alt="Українська"></a>
+        <div class="language-switcher">
+            <img src="images/flag-usa.png" alt="English" class="language-current" onclick="toggleLanguageDropdown()">
+            <div class="language-dropdown" id="languageDropdown">
+                <img src="images/flag-russia.png" alt="Русский" onclick="switchLanguage('ru')">
+                <img src="images/flag-usa.png" alt="English" onclick="switchLanguage('en')">
+                <img src="images/flag-ukraine.png" alt="Українська" onclick="switchLanguage('uk')">
+            </div>
         </div>
     </header>
     <div class="sidebar" id="sidebar">
@@ -223,6 +240,11 @@
             sidebar.classList.toggle('open');
         }
 
+        function toggleLanguageDropdown() {
+            const dropdown = document.getElementById('languageDropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
         function switchLanguage(lang) {
             const elementsToTranslate = {
                 'ru': {
@@ -252,21 +274,16 @@
             for (const id in translations) {
                 document.getElementById(id).innerText = translations[id];
             }
+
+            const currentFlag = document.querySelector('.language-current');
+            currentFlag.src = `images/flag-${lang === 'en' ? 'usa' : lang === 'ru' ? 'russia' : 'ukraine'}.png`;
         }
 
-        function detectLanguage() {
+        document.addEventListener('DOMContentLoaded', () => {
             const userLang = navigator.language || navigator.userLanguage;
-            if (userLang.startsWith('ru')) {
-                switchLanguage('ru');
-            } else if (userLang.startsWith('uk')) {
-                switchLanguage('uk');
-            } else {
-                switchLanguage('en');
-            }
-        }
-
-        // Initialize the default language based on system settings
-        detectLanguage();
+            const lang = ['ru', 'en', 'uk'].includes(userLang.slice(0, 2)) ? userLang.slice(0, 2) : 'en';
+            switchLanguage(lang);
+        });
     </script>
 </body>
 </html>
