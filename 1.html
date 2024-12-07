@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск игроков | Abiotic Factor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #c9d1d9;
+            background-color: #0d1117;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('GMckaOWaEAA2xGg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(5px);
+            z-index: -1;
+        }
+        header {
+            background-color: rgba(22, 27, 34, 0.9);
+            padding: 10px; 
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        header img {
+            width: 150px;
+            margin: 0 auto;
+        }
+        header h1 {
+            display: none;
+        }
+        nav {
+            background-color: rgba(33, 38, 45, 0.9);
+            padding: 10px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav a {
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        nav a:hover {
+            color: #1f6feb;
+        }
+        .container {
+            display: flex;
+            margin-top: 20px;
+            flex: 1;
+        }
+        .sidebar {
+            background-color: rgba(22, 27, 34, 0.9);
+            padding: 20px;
+            width: 250px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+        .sidebar h2 {
+            font-size: 20px;
+            color: #58a6ff;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 20px 0;
+        }
+        .sidebar ul li a {
+            color: #c9d1d9;
+            text-decoration: none;
+            font-size: 18px;
+            display: block;
+        }
+        .sidebar ul li a:hover {
+            color: #58a6ff;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .main-content h2 {
+            color: #58a6ff;
+            margin-bottom: 20px;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-height: 600px; 
+            overflow-y: auto; 
+            padding-right: 10px; 
+        }
+        .card {
+            background-color: rgba(33, 38, 45, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card h3 {
+            margin: 0 0 10px;
+            color: #58a6ff;
+            cursor: pointer;
+        }
+        .card h3:hover {
+            text-decoration: underline;
+        }
+        .card p {
+            font-size: 14px;
+            color: #8b949e;
+        }
+        footer {
+            background-color: rgba(22, 27, 34, 0.9);
+            padding: 10px;
+            text-align: center;
+            color: #8b949e;
+            border-top: 1px solid #30363d;
+            margin-top: auto;
+        }
+        /* Disable text selection and copying */
+        body {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        body::selection {
+            background: none;
+        }
+    </style>
+    <script>
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="background"></div>
+    <header>
+        <img src="Без_названия-removebg-preview.png" alt="Abiotic Factor Logo">
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="players.html">Игроки</a></li>
+            <li><a href="contacts.html">Контакты</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Навигация</h2>
+            <ul>
+                <li><a href="#">Добавить заявку</a></li>
+                <li><a href="#">Мои заявки</a></li>
+                <li><a href="#">Часто задаваемые вопросы</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <h2>Список заявок</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Ищу друга/подругу</h3>
+                    <p>Привет, хотел бы найти друга, чтобы играть в хорроры и другие игры.</p>
+                    <p><strong>Возраст:</strong> 17 лет</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу тиммейтов</h3>
+                    <p>Ищу команду для исследования локаций в Abiotic Factor.</p>
+                    <p><strong>Возраст:</strong> 19 лет</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу компанию</h3>
+                    <p>Ищу весёлую компанию для совместного прохождения.</p>
+                    <p><strong>Возраст:</strong> 15 лет</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу друга для приключений</h3>
+                    <p>Ищу друга для исследования новых механик и объектов в игре.</p>
+                    <p><strong>Возраст:</strong> 25 лет</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу напарника</h3>
+                    <p>Готов играть в режиме выживания.</p>
+                    <p><strong>Возраст:</strong> 22 года</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу клан</h3>
+                    <p>Хотел бы присоединиться к активной группе.</p>
+                    <p><strong>Возраст:</strong> 20 лет</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу тиммейта для исследований</h3>
+                    <p>Готов исследовать новые территории.</p>
+                    <p><strong>Возраст:</strong> 18 лет</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу друга</h3>
+                    <p>Хотел бы совместно пройти сюжетную линию.</p>
+                    <p><strong>Возраст:</strong> 24 года</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу компанию</h3>
+                    <p>Готов присоединиться к любым приключениям.</p>
+                    <p><strong>Возраст:</strong> 21 год</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу группу для миссий</h3>
+                    <p>Готов помогать в сложных миссиях.</p>
+                    <p><strong>Возраст:</strong> 23 года</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу тиммейтов</h3>
+                    <p>Хочу пройти особую миссию.</p>
+                    <p><strong>Возраст:</strong> 20 лет</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу друга для выживания</h3>
+                    <p>Готов работать в команде.</p>
+                    <p><strong>Возраст:</strong> 18 лет</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу партнеров для игры</h3>
+                    <p>Хочу участвовать в исследовательских экспедициях.</p>
+                    <p><strong>Возраст:</strong> 26 лет</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу друга</h3>
+                    <p>Ищу напарника для совместного прохождения.</p>
+                    <p><strong>Возраст:</strong> 19 лет</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу группу</h3>
+                    <p>Готов помогать в любой активности.</p>
+                    <p><strong>Возраст:</strong> 28 лет</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу тиммейтов</h3>
+                    <p>Готов разделить любую активность.</p>
+                    <p><strong>Возраст:</strong> 22 года</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу компанию для исследований</h3>
+                    <p>Ищу тиммейтов для погружений.</p>
+                    <p><strong>Возраст:</strong> 27 лет</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу тиммейтов</h3>
+                    <p>Хочу пройти новую миссию.</p>
+                    <p><strong>Возраст:</strong> 30 лет</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу друга</h3>
+                    <p>Хотел бы научиться новой тактике.</p>
+                    <p><strong>Возраст:</strong> 19 лет</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу группу для игры</h3>
+                    <p>Готов присоединиться к активным игрокам.</p>
+                    <p><strong>Возраст:</strong> 25 лет</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу тиммейтов</h3>
+                    <p>Готов помочь в сложных квестах.</p>
+                    <p><strong>Возраст:</strong> 22 года</p>
+                </div>
+                <div class="card">
+                    <h3>Ищу друга для игры</h3>
+                    <p>Хочу весело провести время.</p>
+                    <p><strong>Возраст:</strong> 20 лет</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Поиск игроков | Abiotic Factor</p>
+    </footer>
+</body>
+</html>
