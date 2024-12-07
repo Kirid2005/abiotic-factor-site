@@ -21,7 +21,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('GMckaOWaEAA2xGg.jpg') no-repeat center center fixed;
+            background: url('images/background.jpg') no-repeat center center fixed;
             background-size: cover;
             filter: blur(5px);
             z-index: -1;
@@ -51,19 +51,10 @@
             top: 0;
             z-index: 1000;
         }
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: space-around;
-        }
-        nav ul li {
-            margin: 0 15px;
-        }
         nav a {
             color: #58a6ff;
             text-decoration: none;
+            margin: 0 15px;
             font-size: 16px;
         }
         nav a:hover {
@@ -82,23 +73,21 @@
             border-radius: 10px;
         }
         .sidebar h2 {
-            font-size: 20px;
+            font-size: 18px;
             color: #58a6ff;
-            margin-bottom: 15px;
-            text-align: left;
+            margin-bottom: 10px;
         }
         .sidebar ul {
             list-style: none;
             padding: 0;
         }
         .sidebar ul li {
-            margin: 20px 0;
+            margin: 10px 0;
         }
         .sidebar ul li a {
             color: #c9d1d9;
             text-decoration: none;
-            font-size: 18px;
-            display: block;
+            font-size: 14px;
         }
         .sidebar ul li a:hover {
             color: #58a6ff;
@@ -149,39 +138,17 @@
             border-top: 1px solid #30363d;
             margin-top: auto;
         }
-        /* Disable text selection and copying */
-        body {
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-        }
-        body::selection {
-            background: none;
-        }
     </style>
-    <script>
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p')) {
-                e.preventDefault();
-            }
-        });
-    </script>
 </head>
 <body>
     <div class="background"></div>
     <header>
-        <img src="Без_названия-removebg-preview.png" alt="Abiotic Factor Logo">
+        <img src="images/logo.png" alt="Abiotic Factor Logo">
     </header>
     <nav>
-        <ul>
-            <li><a href="index.html">Главная</a></li>
-            <li><a href="players.html">Игроки</a></li>
-            <li><a href="contacts.html">Контакты</a></li>
-        </ul>
+        <a href="index.html">Главная</a>
+        <a href="players.html">Игроки</a>
+        <a href="contacts.html">Контакты</a>
     </nav>
     <div class="container">
         <div class="sidebar">
@@ -215,6 +182,8 @@
                     <p>Ищу друга для исследования новых механик и объектов в игре.</p>
                     <p><strong>Возраст:</strong> 25 лет</p>
                 </div>
+                
+                
                 <div class="card">
                     <h3>Ищу напарника</h3>
                     <p>Готов играть в режиме выживания.</p>
