@@ -14,13 +14,7 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            user-select: none; /* Блокировка выделения текста */
-        }
-        body, html {
-            -webkit-touch-callout: none; /* Отключение всплывающих меню на iOS */
-            -webkit-user-select: none;
-            -ms-user-select: none;
-            user-select: none; /* Отключение выделения текста */
+            user-select: none;
         }
         .background {
             position: fixed;
@@ -52,48 +46,55 @@
             margin-left: 15px;
         }
         .language-switcher {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
             margin-left: auto;
             position: relative;
         }
-        .language-current {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            overflow: hidden;
+        .language-switcher button {
+            background-color: transparent;
+            border: none;
             cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
             display: flex;
-            justify-content: center;
             align-items: center;
-            background-color: rgba(255, 255, 255, 0.2);
+            justify-content: center;
+            overflow: hidden;
         }
-        .language-current img {
-            width: 30px;
-            height: 30px;
+        .language-switcher button img {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
         }
-        .language-dropdown {
+        .language-menu {
             display: none;
-            flex-direction: column;
             position: absolute;
-            top: 50px; /* Меню точно под текущим языком */
+            top: 50px;
             right: 0;
-            background-color: rgba(33, 38, 45, 0.9);
-            padding: 10px;
+            background-color: rgba(22, 27, 34, 0.9);
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-            z-index: 1000;
+            overflow: hidden;
         }
-        .language-dropdown img {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            margin: 5px 0;
+        .language-menu.open {
+            display: block;
+        }
+        .language-menu button {
+            background-color: transparent;
+            border: none;
             cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
         }
-        .language-dropdown img:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+        .language-menu button img {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
         }
         .sidebar {
             background-color: rgba(22, 27, 34, 0.9);
@@ -188,16 +189,6 @@
             border-top: 1px solid #30363d;
             margin-top: auto;
         }
-        @media screen and (max-width: 768px) {
-            .menu-icon {
-                display: block;
-            }
-        }
-        @media screen and (min-width: 769px) {
-            .menu-icon {
-                display: block;
-            }
-        }
     </style>
 </head>
 <body>
@@ -206,13 +197,12 @@
         <span class="menu-icon" onclick="toggleMenu()">☰</span>
         <img src="images/logo.png" alt="Abiotic Factor Logo">
         <div class="language-switcher">
-            <div class="language-current" onclick="toggleLanguageDropdown()">
+            <button onclick="toggleLanguageMenu()">
                 <img id="current-language" src="images/flag-russia.png" alt="Current Language">
-            </div>
-            <div class="language-dropdown" id="language-dropdown">
-                <img src="images/flag-usa.png" alt="English" onclick="switchLanguage('en')">
-                <img src="images/flag-ukraine.png" alt="Українська" onclick="switchLanguage('uk')">
-                <img src="images/flag-russia.png" alt="Русский" onclick="switchLanguage('ru')">
+            </button>
+            <div id="language-menu" class="language-menu">
+                <button onclick="switchLanguage('en')"><img src="images/flag-usa.png" alt="English"></button>
+                <button onclick="switchLanguage('uk')"><img src="images/flag-ukraine.png" alt="Українська"></button>
             </div>
         </div>
     </header>
@@ -259,9 +249,9 @@
             sidebar.classList.toggle('open');
         }
 
-        function toggleLanguageDropdown() {
-            const dropdown = document.getElementById('language-dropdown');
-            dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+        function toggleLanguageMenu() {
+            const menu = document.getElementById('language-menu');
+            menu.classList.toggle('open');
         }
 
         function switchLanguage(lang) {
@@ -294,18 +284,34 @@
                 document.getElementById(id).innerText = translations[id];
             }
 
-            const currentLanguage = document.getElementById('current-language');
-            currentLanguage.src = `images/flag-${lang === 'ru' ? 'russia' : lang === 'en' ? 'usa' : 'ukraine'}.png`;
+            const flagMap = {
+                'ru': 'images/flag-russia.png',
+                'en': 'images/flag-usa.png',
+                'uk': 'images/flag-ukraine.png'
+            };
 
-            const dropdown = document.getElementById('language-dropdown');
-            dropdown.style.display = 'none';
+            document.getElementById('current-language').src = flagMap[lang];
+
+            const languageMenu = document.getElementById('language-menu');
+            languageMenu.innerHTML = '';
+            for (const [key, value] of Object.entries(flagMap)) {
+                if (key !== lang) {
+                    const button = document.createElement('button');
+                    button.onclick = () => switchLanguage(key);
+                    const img = document.createElement('img');
+                    img.src = value;
+                    img.alt = key;
+                    button.appendChild(img);
+                    languageMenu.appendChild(button);
+                }
+            }
         }
 
-        window.onload = function () {
-            const userLang = navigator.language || navigator.userLanguage;
-            const lang = userLang.startsWith('ru') ? 'ru' : userLang.startsWith('uk') ? 'uk' : 'en';
-            switchLanguage(lang);
-        };
+        // Detect system language
+        const userLang = navigator.language || navigator.userLanguage;
+        const langMap = { 'ru': 'ru', 'en': 'en', 'uk': 'uk' };
+        const defaultLang = langMap[userLang.split('-')[0]] || 'en';
+        switchLanguage(defaultLang);
     </script>
 </body>
 </html>
