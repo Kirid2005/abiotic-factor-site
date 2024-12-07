@@ -4,7 +4,167 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Поиск игроков | Abiotic Factor</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #c9d1d9;
+            background-color: #0d1117;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            user-select: none; /* Блокировка выделения текста */
+        }
+        body, html {
+            -webkit-touch-callout: none; /* Отключение всплывающих меню на iOS */
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none; /* Отключение выделения текста */
+        }
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('images/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(5px);
+            z-index: -1;
+        }
+        header {
+            background-color: rgba(22, 27, 34, 0.9);
+            padding: 10px; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .menu-icon {
+            font-size: 24px;
+            color: #58a6ff;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+        header img {
+            width: 150px;
+            margin-left: 15px;
+        }
+        .language-switcher {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
+        .language-switcher img {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+        .sidebar {
+            background-color: rgba(22, 27, 34, 0.9);
+            padding: 20px;
+            width: 100%;
+            max-width: 300px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            position: fixed;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .sidebar.open {
+            transform: translateX(0);
+            background-color: rgba(22, 27, 34, 1);
+        }
+        .sidebar h2 {
+            font-size: 20px;
+            color: #58a6ff;
+            margin-bottom: 15px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+        .sidebar ul li a {
+            color: #c9d1d9;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .sidebar ul li a:hover {
+            color: #58a6ff;
+        }
+        .sidebar .close-icon {
+            align-self: flex-end;
+            font-size: 24px;
+            color: #58a6ff;
+            cursor: pointer;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .main-content h2 {
+            color: #58a6ff;
+            margin-bottom: 20px;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            max-height: 600px; 
+            overflow-y: auto; 
+            padding-right: 10px; 
+        }
+        .card {
+            background-color: rgba(33, 38, 45, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card h3 {
+            margin: 0 0 10px;
+            color: #58a6ff;
+            cursor: pointer;
+        }
+        .card h3:hover {
+            text-decoration: underline;
+        }
+        .card p {
+            font-size: 14px;
+            color: #8b949e;
+        }
+        footer {
+            background-color: rgba(22, 27, 34, 0.9);
+            padding: 10px;
+            text-align: center;
+            color: #8b949e;
+            border-top: 1px solid #30363d;
+            margin-top: auto;
+        }
+        @media screen and (max-width: 768px) {
+            .menu-icon {
+                display: block;
+            }
+        }
+        @media screen and (min-width: 769px) {
+            .menu-icon {
+                display: block;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="background"></div>
@@ -29,12 +189,67 @@
     <div class="main-content">
         <h2 id="request-list-header">Список заявок</h2>
         <div class="cards">
-            <!-- Карточки -->
+            <div class="card">
+                <h3>Ищу друга/подругу</h3>
+                <p>Привет, хотел бы найти друга, чтобы играть в хорроры и другие игры.</p>
+                <p><strong>Возраст:</strong> 17 лет</p>
+            </div>
+            <div class="card">
+                <h3>Ищу тиммейтов</h3>
+                <p>Ищу команду для исследования локаций в Abiotic Factor.</p>
+                <p><strong>Возраст:</strong> 19 лет</p>
+            </div>
+            <div class="card">
+                <h3>Ищу компанию</h3>
+                <p>Ищу весёлую компанию для совместного прохождения.</p>
+                <p><strong>Возраст:</strong> 15 лет</p>
+            </div>
+            <div class="card">
+                <h3>Ищу друга для приключений</h3>
+                <p>Ищу друга для исследования новых механик и объектов в игре.</p>
+                <p><strong>Возраст:</strong> 25 лет</p>
+            </div>
         </div>
     </div>
     <footer>
         <p>&copy; 2024 Поиск игроков | Abiotic Factor</p>
     </footer>
-    <script src="script.js"></script>
+    <script>
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        function switchLanguage(lang) {
+            const elementsToTranslate = {
+                'ru': {
+                    'nav-header': 'Навигация',
+                    'add-request': 'Добавить заявку',
+                    'my-requests': 'Мои заявки',
+                    'faq': 'Часто задаваемые вопросы',
+                    'request-list-header': 'Список заявок'
+                },
+                'en': {
+                    'nav-header': 'Navigation',
+                    'add-request': 'Add Request',
+                    'my-requests': 'My Requests',
+                    'faq': 'FAQ',
+                    'request-list-header': 'Request List'
+                },
+                'uk': {
+                    'nav-header': 'Навігація',
+                    'add-request': 'Додати заявку',
+                    'my-requests': 'Мої заявки',
+                    'faq': 'Часті питання',
+                    'request-list-header': 'Список заявок'
+                }
+            };
+
+            const translations = elementsToTranslate[lang];
+            for (const id in translations) {
+                document.getElementById(id).innerText = translations[id];
+            }
+        }
+    </script>
 </body>
 </html>
