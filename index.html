@@ -14,7 +14,13 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            user-select: none;
+            user-select: none; /* Блокировка выделения текста */
+        }
+        body, html {
+            -webkit-touch-callout: none; /* Отключение всплывающих меню на iOS */
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none; /* Отключение выделения текста */
         }
         .background {
             position: fixed;
@@ -47,44 +53,49 @@
         }
         .language-switcher {
             display: flex;
-            gap: 10px;
-            margin-left: auto;
+            flex-direction: column;
             position: relative;
+            margin-left: auto;
+            align-items: center;
         }
-        .language-switcher .current-language {
-            width: 32px;
-            height: 32px;
+        .current-language {
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            background-color: rgba(33, 38, 45, 0.9);
         }
-        .language-switcher .current-language img {
+        .current-language img {
             width: 100%;
-            height: auto;
+            height: 100%;
+            object-fit: cover;
         }
-        .language-dropdown {
+        .language-menu {
             position: absolute;
-            top: 40px;
+            top: 50px;
             right: 0;
             background-color: rgba(22, 27, 34, 0.9);
-            border-radius: 10px;
+            padding: 10px;
+            border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
             display: none;
             flex-direction: column;
-            padding: 10px;
+            align-items: center;
+            gap: 10px;
         }
-        .language-dropdown.active {
-            display: flex;
-        }
-        .language-dropdown img {
+        .language-menu img {
             width: 32px;
             height: 32px;
+            object-fit: cover;
             border-radius: 50%;
-            margin: 5px 0;
             cursor: pointer;
+        }
+        .language-menu.visible {
+            display: flex;
         }
         .sidebar {
             background-color: rgba(22, 27, 34, 0.9);
@@ -197,13 +208,12 @@
         <span class="menu-icon" onclick="toggleMenu()">☰</span>
         <img src="images/logo.png" alt="Abiotic Factor Logo">
         <div class="language-switcher">
-            <div class="current-language" onclick="toggleLanguageDropdown()">
-                <img id="current-flag" src="images/flag-russia.png" alt="Current Language">
+            <div class="current-language" onclick="toggleLanguageMenu()">
+                <img src="images/flag-russia.png" alt="Русский">
             </div>
-            <div class="language-dropdown" id="languageDropdown">
+            <div class="language-menu">
                 <img src="images/flag-usa.png" alt="English" onclick="switchLanguage('en')">
                 <img src="images/flag-ukraine.png" alt="Українська" onclick="switchLanguage('uk')">
-                <img src="images/flag-russia.png" alt="Русский" onclick="switchLanguage('ru')">
             </div>
         </div>
     </header>
@@ -250,12 +260,29 @@
             sidebar.classList.toggle('open');
         }
 
-        function toggleLanguageDropdown() {
-            const dropdown = document.getElementById('languageDropdown');
-            dropdown.classList.toggle('active');
+        function toggleLanguageMenu() {
+            const menu = document.querySelector('.language-menu');
+            menu.classList.toggle('visible');
         }
 
         function switchLanguage(lang) {
+            const flags = {
+                'ru': 'images/flag-russia.png',
+                'en': 'images/flag-usa.png',
+                'uk': 'images/flag-ukraine.png',
+            };
+
+            // Update current language flag
+            document.querySelector('.current-language img').src = flags[lang];
+
+            // Hide the language menu
+            toggleLanguageMenu();
+
+            // Apply translations
+            applyTranslations(lang);
+        }
+
+        function applyTranslations(lang) {
             const elementsToTranslate = {
                 'ru': {
                     'nav-header': 'Навигация',
@@ -284,33 +311,17 @@
             for (const id in translations) {
                 document.getElementById(id).innerText = translations[id];
             }
-
-            const flagMap = {
-                'ru': 'images/flag-russia.png',
-                'en': 'images/flag-usa.png',
-                'uk': 'images/flag-ukraine.png'
-            };
-
-            document.getElementById('current-flag').src = flagMap[lang];
-
-            // Update dropdown to hide current language
-            const dropdown = document.getElementById('languageDropdown');
-            dropdown.innerHTML = '';
-            for (const key in flagMap) {
-                if (key !== lang) {
-                    const img = document.createElement('img');
-                    img.src = flagMap[key];
-                    img.alt = key;
-                    img.onclick = () => switchLanguage(key);
-                    dropdown.appendChild(img);
-                }
-            }
         }
 
-        // Detect system language
-        const userLang = navigator.language.slice(0, 2);
-        const supportedLangs = ['ru', 'en', 'uk'];
-        switchLanguage(supportedLangs.includes(userLang) ? userLang : 'en');
+        // Automatically set language based on system settings
+        const userLang = navigator.language || navigator.userLanguage;
+        const langMap = {
+            'ru': 'ru',
+            'en': 'en',
+            'uk': 'uk'
+        };
+        const defaultLang = langMap[userLang.split('-')[0]] || 'en';
+        switchLanguage(defaultLang);
     </script>
 </body>
 </html>
