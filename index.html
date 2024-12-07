@@ -52,29 +52,17 @@
             margin-left: 15px;
         }
         .language-switcher {
-            position: relative;
+            display: flex;
+            gap: 10px;
             margin-left: auto;
         }
         .language-switcher img {
             width: 24px;
             height: 24px;
             cursor: pointer;
-        }
-        .language-dropdown {
-            display: none;
-            position: absolute;
-            top: 30px;
-            right: 0;
-            background-color: rgba(22, 27, 34, 0.9);
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-        }
-        .language-dropdown img {
-            display: block;
-            margin: 5px 0;
-            width: 24px;
-            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #58a6ff;
+            padding: 2px;
         }
         .sidebar {
             background-color: rgba(22, 27, 34, 0.9);
@@ -186,13 +174,10 @@
     <header>
         <span class="menu-icon" onclick="toggleMenu()">☰</span>
         <img src="images/logo.png" alt="Abiotic Factor Logo">
-        <div class="language-switcher">
-            <img src="images/flag-russia.png" alt="Current Language" id="current-language" onclick="toggleLanguageDropdown()">
-            <div class="language-dropdown" id="language-dropdown">
-                <img src="images/flag-russia.png" alt="Русский" onclick="switchLanguage('ru')">
-                <img src="images/flag-usa.png" alt="English" onclick="switchLanguage('en')">
-                <img src="images/flag-ukraine.png" alt="Українська" onclick="switchLanguage('uk')">
-            </div>
+        <div class="language-switcher" id="language-switcher">
+            <a onclick="switchLanguage('ru')"><img src="images/flag-russia.png" alt="Русский"></a>
+            <a onclick="switchLanguage('en')"><img src="images/flag-usa.png" alt="English"></a>
+            <a onclick="switchLanguage('uk')"><img src="images/flag-ukraine.png" alt="Українська"></a>
         </div>
     </header>
     <div class="sidebar" id="sidebar">
@@ -238,11 +223,6 @@
             sidebar.classList.toggle('open');
         }
 
-        function toggleLanguageDropdown() {
-            const dropdown = document.getElementById('language-dropdown');
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        }
-
         function switchLanguage(lang) {
             const elementsToTranslate = {
                 'ru': {
@@ -272,19 +252,21 @@
             for (const id in translations) {
                 document.getElementById(id).innerText = translations[id];
             }
-
-            const currentLanguageImg = document.getElementById('current-language');
-            currentLanguageImg.src = `images/flag-${lang === 'ru' ? 'russia' : lang === 'en' ? 'usa' : 'ukraine'}.png`;
-            document.getElementById('language-dropdown').style.display = 'none';
         }
 
-        document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('language-dropdown');
-            const currentLanguage = document.getElementById('current-language');
-            if (!dropdown.contains(event.target) && event.target !== currentLanguage) {
-                dropdown.style.display = 'none';
+        function detectLanguage() {
+            const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith('ru')) {
+                switchLanguage('ru');
+            } else if (userLang.startsWith('uk')) {
+                switchLanguage('uk');
+            } else {
+                switchLanguage('en');
             }
-        });
+        }
+
+        // Initialize the default language based on system settings
+        detectLanguage();
     </script>
 </body>
 </html>
