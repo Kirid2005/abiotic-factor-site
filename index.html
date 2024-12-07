@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,14 +34,24 @@
             position: relative;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
         }
         header img {
-            width: 150px;
-            margin: 0 auto;
+            width: 100px;
+            margin-left: 20px;
         }
-        header h1 {
-            display: none;
+        .language-switcher {
+            display: flex;
+            gap: 10px;
+            margin-right: 20px;
+        }
+        .language-switcher a {
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .language-switcher a:hover {
+            text-decoration: underline;
         }
         nav {
             background-color: rgba(33, 38, 45, 0.9);
@@ -67,27 +77,28 @@
         }
         .sidebar {
             background-color: rgba(22, 27, 34, 0.9);
-            padding: 30px;
-            width: 300px;
+            padding: 20px;
+            width: 100%;
+            max-width: 300px;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
             border-radius: 10px;
         }
         .sidebar h2 {
-            font-size: 24px;
+            font-size: 20px;
             color: #58a6ff;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .sidebar ul {
             list-style: none;
             padding: 0;
         }
         .sidebar ul li {
-            margin: 20px 0;
+            margin: 15px 0;
         }
         .sidebar ul li a {
             color: #c9d1d9;
             text-decoration: none;
-            font-size: 18px;
+            font-size: 16px;
         }
         .sidebar ul li a:hover {
             color: #58a6ff;
@@ -102,7 +113,7 @@
         }
         .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
             max-height: 600px; 
             overflow-y: auto; 
@@ -138,12 +149,29 @@
             border-top: 1px solid #30363d;
             margin-top: auto;
         }
+        @media screen and (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            nav a {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="background"></div>
     <header>
         <img src="images/logo.png" alt="Abiotic Factor Logo">
+        <div class="language-switcher">
+            <a href="#" onclick="switchLanguage('ru')">Русский</a>
+            <a href="#" onclick="switchLanguage('en')">English</a>
+            <a href="#" onclick="switchLanguage('uk')">Українська</a>
+        </div>
     </header>
     <nav>
         <a href="index.html">Главная</a>
@@ -182,103 +210,17 @@
                     <p>Ищу друга для исследования новых механик и объектов в игре.</p>
                     <p><strong>Возраст:</strong> 25 лет</p>
                 </div>
-                
-                
-                <div class="card">
-                    <h3>Ищу напарника</h3>
-                    <p>Готов играть в режиме выживания.</p>
-                    <p><strong>Возраст:</strong> 22 года</p>
-                </div>
-                <div class="card">
-                    <h3>Ищу клан</h3>
-                    <p>Хотел бы присоединиться к активной группе.</p>
-                    <p><strong>Возраст:</strong> 20 лет</p>
-                </div>
-                <div class="card">
-                    <h3>Ищу тиммейта для исследований</h3>
-                    <p>Готов исследовать новые территории.</p>
-                    <p><strong>Возраст:</strong> 18 лет</p>
-                </div>
-                <div class="card">
-                    <h3>Ищу друга</h3>
-                    <p>Хотел бы совместно пройти сюжетную линию.</p>
-                    <p><strong>Возраст:</strong> 24 года</p>
-                </div>
-                <div class="card">
-                    <h3>Ищу компанию</h3>
-                    <p>Готов присоединиться к любым приключениям.</p>
-                    <p><strong>Возраст:</strong> 21 год</p>
-                </div>
-                <div class="card">
-                    <h3>Ищу группу для миссий</h3>
-                    <p>Готов помогать в сложных миссиях.</p>
-                    <p><strong>Возраст:</strong> 23 года</p>
-                </div>
-                <div class="card">
-                    <h3>Ищу тиммейтов</h3>
-                    <p>Хочу пройти особую миссию.</p>
-                    <p><strong>Возраст:</strong> 20 лет</p>
-                </div>
-                <div class="card">
-                    <h3>Ищу друга для выживания</h3>
-                    <p>Готов работать в команде.</p>
-                    <p><strong>Возраст:</strong> 18 лет</p>
-                </div>
-                <div class="card">
-                    <h3>Ищу партнеров для игры</h3>
-                    <p>Хочу участвовать в исследовательских экспедициях.</p>
-                    <p><strong>Возраст:</strong> 26 лет</p>
-                </div>
-                <div class="card">
-                    <h3>Ищу друга</h3>
-                    <p>Ищу напарника для совместного прохождения.</p>
-                    <p><strong>Возраст:</strong> 19 лет</p>
-                </div>
-                <div class="card">
-                    <h3>Ищу группу</h3>
-                    <p>Готов помогать в любой активности.</p>
-                    <p><strong>Возраст:</strong> 28 лет</p>
-                </div>
-                <div class="card">
-                    <h3>Ищу тиммейтов</h3>
-                    <p>Готов разделить любую активность.</p>
-                    <p><strong>Возраст:</strong> 22 года</p>
-                </div>
-                <div class="card">
-                    <h3>Ищу компанию для исследований</h3>
-                    <p>Ищу тиммейтов для погружений.</p>
-                    <p><strong>Возраст:</strong> 27 лет</p>
-                </div>
-                <div class="card">
-                    <h3>Ищу тиммейтов</h3>
-                    <p>Хочу пройти новую миссию.</p>
-                    <p><strong>Возраст:</strong> 30 лет</p>
-                </div>
-                <div class="card">
-                    <h3>Ищу друга</h3>
-                    <p>Хотел бы научиться новой тактике.</p>
-                    <p><strong>Возраст:</strong> 19 лет</p>
-                </div>
-                <div class="card">
-                    <h3>Ищу группу для игры</h3>
-                    <p>Готов присоединиться к активным игрокам.</p>
-                    <p><strong>Возраст:</strong> 25 лет</p>
-                </div>
-                <div class="card">
-                    <h3>Ищу тиммейтов</h3>
-                    <p>Готов помочь в сложных квестах.</p>
-                    <p><strong>Возраст:</strong> 22 года</p>
-                </div>
-                <div class="card">
-                    <h3>Ищу друга для игры</h3>
-                    <p>Хочу весело провести время.</p>
-                    <p><strong>Возраст:</strong> 20 лет</p>
-                </div>
             </div>
         </div>
     </div>
     <footer>
         <p>&copy; 2024 Поиск игроков | Abiotic Factor</p>
     </footer>
+    <script>
+        function switchLanguage(lang) {
+            alert('Switching to language: ' + lang);
+            // Add functionality to dynamically load content for the selected language.
+        }
+    </script>
 </body>
 </html>
