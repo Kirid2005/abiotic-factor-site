@@ -14,13 +14,13 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            user-select: none; /* Блокировка выделения текста */
+            user-select: none;
         }
         body, html {
-            -webkit-touch-callout: none; /* Отключение всплывающих меню на iOS */
+            -webkit-touch-callout: none;
             -webkit-user-select: none;
             -ms-user-select: none;
-            user-select: none; /* Отключение выделения текста */
+            user-select: none;
         }
         .background {
             position: fixed;
@@ -52,48 +52,50 @@
             margin-left: 15px;
         }
         .language-switcher {
+            display: flex;
             position: relative;
             margin-left: auto;
         }
-        .current-language {
+        .language-switcher .current-language {
             width: 36px;
             height: 36px;
             border-radius: 50%;
             overflow: hidden;
+            border: 2px solid #58a6ff;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            background-color: #22272e;
         }
-        .current-language img {
+        .language-switcher .current-language img {
             width: 24px;
             height: 24px;
         }
-        .language-options {
+        .language-switcher .language-options {
             display: none;
             position: absolute;
-            top: 45px;
+            top: 50px;
             right: 0;
-            background-color: #22272e;
-            border-radius: 5px;
+            background-color: rgba(22, 27, 34, 0.9);
+            border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-            padding: 10px;
             z-index: 1000;
         }
-        .language-options.show {
-            display: block;
-        }
-        .language-options img {
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            margin: 5px;
+        .language-switcher .language-options img {
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
+            margin: 5px;
+            cursor: pointer;
             transition: transform 0.2s;
         }
-        .language-options img:hover {
+        .language-switcher .language-options img:hover {
             transform: scale(1.1);
+        }
+        .language-switcher.open .language-options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .sidebar {
             background-color: rgba(22, 27, 34, 0.9);
@@ -205,12 +207,13 @@
     <header>
         <span class="menu-icon" onclick="toggleMenu()">☰</span>
         <img src="images/logo.png" alt="Abiotic Factor Logo">
-        <div class="language-switcher">
+        <div class="language-switcher" id="languageSwitcher">
             <div class="current-language" onclick="toggleLanguageMenu()">
-                <img id="current-language-flag" src="images/flag-russia.png" alt="Русский">
+                <img src="images/flag-russia.png" alt="Русский">
             </div>
-            <div class="language-options" id="language-options">
-                <!-- Options dynamically inserted here -->
+            <div class="language-options">
+                <img src="images/flag-usa.png" alt="English" onclick="switchLanguage('en')">
+                <img src="images/flag-ukraine.png" alt="Українська" onclick="switchLanguage('uk')">
             </div>
         </div>
     </header>
@@ -258,8 +261,8 @@
         }
 
         function toggleLanguageMenu() {
-            const languageOptions = document.getElementById('language-options');
-            languageOptions.classList.toggle('show');
+            const languageSwitcher = document.getElementById('languageSwitcher');
+            languageSwitcher.classList.toggle('open');
         }
 
         function switchLanguage(lang) {
@@ -292,32 +295,29 @@
                 document.getElementById(id).innerText = translations[id];
             }
 
-            // Update current language flag
-            const flagMap = {
-                'ru': 'images/flag-russia.png',
-                'en': 'images/flag-usa.png',
-                'uk': 'images/flag-ukraine.png'
-            };
-            document.getElementById('current-language-flag').src = flagMap[lang];
-            document.getElementById('language-options').innerHTML = '';
+            const currentLanguage = document.querySelector('.current-language img');
+            currentLanguage.src = `images/flag-${lang}.png`;
 
-            for (const key in flagMap) {
-                if (key !== lang) {
-                    const img = document.createElement('img');
-                    img.src = flagMap[key];
-                    img.alt = key;
-                    img.onclick = () => switchLanguage(key);
-                    document.getElementById('language-options').appendChild(img);
+            const languageOptions = document.querySelectorAll('.language-options img');
+            languageOptions.forEach(option => {
+                if (option.alt.toLowerCase() === lang) {
+                    option.style.display = 'none';
+                } else {
+                    option.style.display = 'block';
                 }
-            }
+            });
         }
 
-        // Detect system language
-        const userLang = navigator.language || navigator.userLanguage;
-        const langCode = userLang.split('-')[0];
-        const supportedLanguages = ['ru', 'en', 'uk'];
-        const initialLanguage = supportedLanguages.includes(langCode) ? langCode : 'en';
-        switchLanguage(initialLanguage);
+        document.addEventListener('DOMContentLoaded', () => {
+            const userLang = navigator.language || navigator.userLanguage;
+            const langMap = {
+                'ru': 'ru',
+                'uk': 'uk',
+                'en': 'en'
+            };
+            const defaultLang = langMap[userLang.slice(0, 2)] || 'en';
+            switchLanguage(defaultLang);
+        });
     </script>
 </body>
 </html>
