@@ -45,7 +45,15 @@
         }
         header img {
             width: 100px;
-            margin-left: 20px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .menu-icon {
+            font-size: 24px;
+            color: #58a6ff;
+            cursor: pointer;
+            position: absolute;
+            left: 20px;
         }
         .language-switcher {
             display: flex;
@@ -77,12 +85,6 @@
         }
         nav a:hover {
             color: #1f6feb;
-        }
-        .menu-icon {
-            display: none;
-            font-size: 24px;
-            color: #58a6ff;
-            cursor: pointer;
         }
         .sidebar {
             background-color: rgba(22, 27, 34, 0.9);
@@ -192,8 +194,8 @@
 <body>
     <div class="background"></div>
     <header>
-        <img src="images/logo.png" alt="Abiotic Factor Logo">
         <span class="menu-icon" onclick="toggleMenu()">☰</span>
+        <img src="images/logo.png" alt="Abiotic Factor Logo">
         <div class="language-switcher">
             <a href="#" onclick="switchLanguage('ru')">Русский</a>
             <a href="#" onclick="switchLanguage('en')">English</a>
@@ -269,9 +271,4 @@
         }
 
         function toggleMenu() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('open');
-        }
-    </script>
-</body>
-</html>
+            const sidebar = document.getElementBy
