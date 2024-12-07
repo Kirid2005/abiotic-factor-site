@@ -38,7 +38,7 @@
         }
         header img {
             width: 100px;
-            margin-left: 20px;
+            margin-right: auto;
         }
         .language-switcher {
             display: flex;
@@ -53,28 +53,11 @@
         .language-switcher a:hover {
             text-decoration: underline;
         }
-        nav {
-            background-color: rgba(33, 38, 45, 0.9);
-            padding: 10px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        nav a {
-            color: #58a6ff;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 16px;
-        }
-        nav a:hover {
-            color: #1f6feb;
-        }
         .menu-icon {
-            display: none;
             font-size: 24px;
             color: #58a6ff;
             cursor: pointer;
+            margin-left: 20px;
         }
         .sidebar {
             background-color: rgba(22, 27, 34, 0.9);
@@ -184,8 +167,8 @@
 <body>
     <div class="background"></div>
     <header>
-        <img src="images/logo.png" alt="Abiotic Factor Logo">
         <span class="menu-icon" onclick="toggleMenu()">☰</span>
+        <img src="images/logo.png" alt="Abiotic Factor Logo">
         <div class="language-switcher">
             <a href="#" onclick="switchLanguage('ru')">Русский</a>
             <a href="#" onclick="switchLanguage('en')">English</a>
