@@ -14,6 +14,13 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            user-select: none; /* Блокировка выделения текста */
+        }
+        body, html {
+            -webkit-touch-callout: none; /* Отключение всплывающих меню на iOS */
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none; /* Отключение выделения текста */
         }
         .background {
             position: fixed;
@@ -38,7 +45,7 @@
         }
         header img {
             width: 100px;
-            margin-right: auto;
+            margin-left: 20px;
         }
         .language-switcher {
             display: flex;
@@ -49,15 +56,33 @@
             color: #58a6ff;
             text-decoration: none;
             font-size: 14px;
+            cursor: pointer;
         }
         .language-switcher a:hover {
             text-decoration: underline;
         }
+        nav {
+            background-color: rgba(33, 38, 45, 0.9);
+            padding: 10px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav a {
+            color: #58a6ff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 16px;
+        }
+        nav a:hover {
+            color: #1f6feb;
+        }
         .menu-icon {
+            display: none;
             font-size: 24px;
             color: #58a6ff;
             cursor: pointer;
-            margin-left: 20px;
         }
         .sidebar {
             background-color: rgba(22, 27, 34, 0.9);
@@ -167,8 +192,8 @@
 <body>
     <div class="background"></div>
     <header>
-        <span class="menu-icon" onclick="toggleMenu()">☰</span>
         <img src="images/logo.png" alt="Abiotic Factor Logo">
+        <span class="menu-icon" onclick="toggleMenu()">☰</span>
         <div class="language-switcher">
             <a href="#" onclick="switchLanguage('ru')">Русский</a>
             <a href="#" onclick="switchLanguage('en')">English</a>
@@ -177,15 +202,15 @@
     </header>
     <div class="sidebar" id="sidebar">
         <span class="close-icon" onclick="toggleMenu()">×</span>
-        <h2>Навигация</h2>
+        <h2 id="nav-header">Навигация</h2>
         <ul>
-            <li><a href="#">Добавить заявку</a></li>
-            <li><a href="#">Мои заявки</a></li>
-            <li><a href="#">Часто задаваемые вопросы</a></li>
+            <li><a href="#" id="add-request">Добавить заявку</a></li>
+            <li><a href="#" id="my-requests">Мои заявки</a></li>
+            <li><a href="#" id="faq">Часто задаваемые вопросы</a></li>
         </ul>
     </div>
     <div class="main-content">
-        <h2>Список заявок</h2>
+        <h2 id="request-list-header">Список заявок</h2>
         <div class="cards">
             <div class="card">
                 <h3>Ищу друга/подругу</h3>
@@ -214,8 +239,33 @@
     </footer>
     <script>
         function switchLanguage(lang) {
-            alert('Switching to language: ' + lang);
-            // Add functionality to dynamically load content for the selected language.
+            const elementsToTranslate = {
+                'ru': {
+                    'nav-header': 'Навигация',
+                    'add-request': 'Добавить заявку',
+                    'my-requests': 'Мои заявки',
+                    'faq': 'Часто задаваемые вопросы',
+                    'request-list-header': 'Список заявок'
+                },
+                'en': {
+                    'nav-header': 'Navigation',
+                    'add-request': 'Add Request',
+                    'my-requests': 'My Requests',
+                    'faq': 'Frequently Asked Questions',
+                    'request-list-header': 'Request List'
+                },
+                'uk': {
+                    'nav-header': 'Навігація',
+                    'add-request': 'Додати заявку',
+                    'my-requests': 'Мої заявки',
+                    'faq': 'Часті питання',
+                    'request-list-header': 'Список заявок'
+                }
+            };
+            const translations = elementsToTranslate[lang];
+            for (const id in translations) {
+                document.getElementById(id).textContent = translations[id];
+            }
         }
 
         function toggleMenu() {
